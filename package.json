@@ -1,0 +1,41 @@
+{
+  "name": "dsh-macos-notify",
+  "version": "1.0.0",
+  "description": "macOS system notification plugin for DeepSeek Harness on task completion",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "cordis.patch.yml"
+  ],
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "macos",
+    "notification"
+  ],
+  "author": "Osanai Yuki <266692516+nijika-boyfriend@users.noreply.github.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nijika-boyfriend/dsh-macos-notify.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nijika-boyfriend/dsh-macos-notify/issues"
+  },
+  "homepage": "https://github.com/nijika-boyfriend/dsh-macos-notify#readme",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "*",
+    "@deepseek-ai/schemastery": "*"
+  }
+}
