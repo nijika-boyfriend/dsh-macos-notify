@@ -34,7 +34,7 @@ __dshMacNotify.debug()                        // 查看权限与订阅状态
 | `autoFocus` | boolean | `true` | 点击通知时聚焦窗口并打开会话 |
 | `onlyWhenHidden` | boolean | `false` | 仅在窗口不可见时通知 |
 
-`cordis.patch.yml` 中的 `sound`、`notifyOnComplete`、`notifyOnError`、`notifyOnApproval`、`minDurationSeconds` 为服务端 Config 字段，目前**不会**传递给客户端，`minDurationSeconds` 也尚未生效。
+配置只有客户端这一套，`cordis.patch.yml` 中无需也无法配置通知选项。
 
 ## 安装与配置
 
@@ -55,12 +55,6 @@ pnpm add file:../../plugins/dsh-macos-notify
 - insert:
     - id: macos-notify
       name: dsh-macos-notify
-      config:
-        sound: Glass
-        notifyOnComplete: true
-        notifyOnError: true
-        notifyOnApproval: true
-        minDurationSeconds: 1
 ```
 
 在配置目录的 `package.json` 中将插件加入 bundles 列表：

@@ -1,9 +1,3 @@
 - insert:
     - id: macos-notify
       name: dsh-macos-notify
-      config:
-        sound: Glass
-        notifyOnComplete: true
-        notifyOnError: true
-        notifyOnApproval: true
-        minDurationSeconds: 1
