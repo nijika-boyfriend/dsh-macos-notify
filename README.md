@@ -10,7 +10,7 @@ macOS 系统通知插件，适用于 DeepSeek Harness。在 Agent 任务完成�
 - **以 DSH 自身身份发送**：通知由客户端通过 Web Notification 发出，macOS 会显示 DeepSeek Harness 的应用图标与名称（不再经由「脚本编辑器」）。点击通知可回到对应会话。
 - **提示音**：使用 Web Audio 合成的提示音（完成为 Glass 风格，审批/出错为双音告警），带 800ms 防抖。
 
-> 首次使用请在「系统设置 → 通知 → DeepSeek Harness」中允许通知，否则通知不会显示。
+> ⚠️ **必须先授予 DeepSeek Harness 系统通知权限**，否则通知不会显示（或显示异常）。见下方「安装与配置 → 3. 授权通知权限」。
 
 ## 配置项
 
@@ -78,6 +78,15 @@ pnpm add file:../../plugins/dsh-macos-notify
 ```
 
 启动或重载 DeepSeek Harness 后，插件将自动加载并监听任务事件。
+
+### 3. 授权通知权限
+
+通知由 DeepSeek Harness 应用本身发出，需要在 macOS 中允许它发送通知：
+
+1. 打开「系统设置 → 通知 → DeepSeek Harness」，开启「允许通知」，并建议将提醒样式设为「横幅」或「提醒」。
+2. 若列表里没有 DeepSeek Harness，先在应用内点击一次界面（首次交互时会弹出授权请求），或在开发者工具 Console 运行 `__dshMacNotify.test()` 触发授权弹窗，然后在弹窗中选择「允许」。
+3. 运行 `__dshMacNotify.debug()`，确认 `permission` 为 `granted`；若为 `denied`，请回到系统设置手动开启。
+4. 若系统开启了「专注模式」或「勿扰」，通知会被静默，需在专注模式设置中允许 DeepSeek Harness。
 
 ## 开源协议
 
