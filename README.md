@@ -4,21 +4,37 @@ macOS 系统通知插件，适用于 DeepSeek Harness。在 Agent 任务完成�
 
 ## 功能特性
 
-- **任务完成通知**：当 Agent 运行结束并恢复空闲状态时，触发系统通知，告知用户任务已完成、工作区与任务耗时。
-- **任务出错通知**：当模型请求失败、工具调用异常或任务异常中止时，触发告警通知并附带错误原因。
-- **操作审批通知**：当 Agent 尝试执行危险命令或工具而暂停等待用户确认时，立即发送横幅提醒用户返回应用。
-- **沉浸式体验**：优先调用 DeepSeek Harness 官方应用标识，通知附带 DeepSeek 图标与原生提示音。支持快速任务过滤，避免几百毫秒的瞬时应答频繁打扰。
-- **动态配置支持**：配置项支持热重载，可自定义提示音、开关通知类型与调节最短通知耗时阈值。
+- **任务完成通知**：会话从运行变为空闲时触发，标题为「会话标题 · 任务已完成」，正文包含耗时与助手最后一段回复摘要。
+- **操作审批通知**：Agent 因敏感操作暂停等待确认时，发送横幅提醒用户返回应用。
+- **出错通知（尚未实现）**：配置项与测试入口已预留，但目前没有真实的错误检测逻辑，只有 `__dshMacNotify.test("error")` 会触发。
+- **以 DSH 自身身份发送**：通知由客户端通过 Web Notification 发出，macOS 会显示 DeepSeek Harness 的应用图标与名称（不再经由「脚本编辑器」）。点击通知可回到对应会话。
+- **提示音**：使用 Web Audio 合成的提示音（完成为 Glass 风格，审批/出错为双音告警），带 800ms 防抖。
+
+> 首次使用请在「系统设置 → 通知 → DeepSeek Harness」中允许通知，否则通知不会显示。
 
 ## 配置项
 
-| 配置字段 | 类型 | 默认值 | 说明 |
+通知行为由**客户端**读取，配置保存在渲染进程的 `localStorage["dshMacNotify.config"]`，可在开发者工具 Console 中通过 `window.__dshMacNotify` 操作：
+
+```js
+__dshMacNotify.config()                       // 查看当前配置
+__dshMacNotify.setConfig({ sound: "none" })   // 修改配置
+__dshMacNotify.test("complete")               // 发送测试通知：complete / approval / error
+__dshMacNotify.debug()                        // 查看权限与订阅状态
+```
+
+| 字段 | 类型 | 默认值 | 说明 |
 | :--- | :--- | :--- | :--- |
-| `sound` | string | `Glass` | 提示音名称，可选 `Glass`, `Hero`, `Ping`, `Pop`, `default`，设为 `none` 则静音 |
-| `notifyOnComplete` | boolean | `true` | 任务正常完成时是否发送通知 |
-| `notifyOnError` | boolean | `true` | 任务发生异常时是否发送通知 |
-| `notifyOnApproval` | boolean | `true` | 等待敏感操作授权审批时是否发送通知 |
-| `minDurationSeconds` | number | `1` | 任务执行最短秒数，低于该时间的快速响应不触发通知 |
+| `enabled` | boolean | `true` | 总开关 |
+| `sound` | string | `"Glass"` | `"none"` 静音；`"system"` 使用系统通知音；其他值使用内置合成提示音 |
+| `volume` | number | `0.6` | 合成提示音音量 |
+| `notifyOnComplete` | boolean | `true` | 任务完成时通知 |
+| `notifyOnError` | boolean | `true` | 出错时通知（暂无真实触发路径） |
+| `notifyOnApproval` | boolean | `true` | 等待审批时通知 |
+| `autoFocus` | boolean | `true` | 点击通知时聚焦窗口并打开会话 |
+| `onlyWhenHidden` | boolean | `false` | 仅在窗口不可见时通知 |
+
+`cordis.patch.yml` 中的 `sound`、`notifyOnComplete`、`notifyOnError`、`notifyOnApproval`、`minDurationSeconds` 为服务端 Config 字段，目前**不会**传递给客户端，`minDurationSeconds` 也尚未生效。
 
 ## 安装与配置
 
