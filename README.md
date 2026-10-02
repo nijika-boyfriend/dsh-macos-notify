@@ -1,4 +1,4 @@
-# dsh-macos-notify
+# dsh-notify-macos
 
 macOS 系统通知插件，适用于 DeepSeek Harness。在任务完成或需要用户审批时，发送通知与提示音提醒。
 > **必须授予 DeepSeek Harness 系统通知权限**

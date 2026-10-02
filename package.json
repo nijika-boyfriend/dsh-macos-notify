@@ -1,5 +1,5 @@
 {
-  "name": "dsh-macos-notify",
+  "name": "dsh-notify-macos",
   "version": "1.1.0",
   "description": "macOS system notification plugin for DeepSeek Harness on task completion",
   "type": "module",
@@ -28,12 +28,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nijika-boyfriend/dsh-macos-notify.git"
+    "url": "git+https://github.com/nijika-boyfriend/dsh-notify-macos.git"
   },
   "bugs": {
-    "url": "https://github.com/nijika-boyfriend/dsh-macos-notify/issues"
+    "url": "https://github.com/nijika-boyfriend/dsh-notify-macos/issues"
   },
-  "homepage": "https://github.com/nijika-boyfriend/dsh-macos-notify#readme",
+  "homepage": "https://github.com/nijika-boyfriend/dsh-notify-macos#readme",
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
